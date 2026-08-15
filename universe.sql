@@ -18,13 +18,13 @@ SET row_security = off;
 
 DROP DATABASE universe;
 --
--- Name: universe; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: universe; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
 CREATE DATABASE universe WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
-ALTER DATABASE universe OWNER TO postgres;
+ALTER DATABASE universe OWNER TO freecodecamp;
 
 \connect universe
 
@@ -90,7 +90,10 @@ CREATE TABLE public.galaxy (
     description text,
     name character varying(50) NOT NULL,
     age_in_billions numeric(4,2),
-    has_life boolean DEFAULT false NOT NULL
+    has_life boolean DEFAULT false NOT NULL,
+    age_in_millions_of_years numeric(5,2),
+    distance_from_earth integer,
+    galaxy_type text
 );
 
 
@@ -279,38 +282,38 @@ INSERT INTO public.comet VALUES (3, 'Encke', 1, true, 3);
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.galaxy VALUES (1, 220, 'Our home galaxy', 'Milky Way', 13.60, true);
-INSERT INTO public.galaxy VALUES (2, 300, 'Closest large galaxy', 'Andromeda', 10.00, false);
-INSERT INTO public.galaxy VALUES (3, 60, 'Satellite of Milky Way', 'Triangulum', 12.00, false);
-INSERT INTO public.galaxy VALUES (4, 100, 'Dwarf galaxy close by', 'Large Magellanic', 13.00, false);
-INSERT INTO public.galaxy VALUES (5, 80, 'Small companion', 'Small Magellanic', 12.50, false);
-INSERT INTO public.galaxy VALUES (6, 400, 'Massive elliptical cluster', 'Messier 87', 13.20, false);
+INSERT INTO public.galaxy VALUES (1, 220, 'Our home galaxy', 'Milky Way', 13.60, true, NULL, NULL, NULL);
+INSERT INTO public.galaxy VALUES (2, 300, 'Closest large galaxy', 'Andromeda', 10.00, false, NULL, NULL, NULL);
+INSERT INTO public.galaxy VALUES (3, 60, 'Satellite of Milky Way', 'Triangulum', 12.00, false, NULL, NULL, NULL);
+INSERT INTO public.galaxy VALUES (4, 100, 'Dwarf galaxy close by', 'Large Magellanic', 13.00, false, NULL, NULL, NULL);
+INSERT INTO public.galaxy VALUES (5, 80, 'Small companion', 'Small Magellanic', 12.50, false, NULL, NULL, NULL);
+INSERT INTO public.galaxy VALUES (6, 400, 'Massive elliptical cluster', 'Messier 87', 13.20, false, NULL, NULL, NULL);
 
 
 --
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.moon VALUES (1, 'Moon', 3, 1737, true, NULL);
-INSERT INTO public.moon VALUES (2, 'Phobos', 4, 11, false, 1877);
-INSERT INTO public.moon VALUES (3, 'Deimos', 4, 6, false, 1877);
-INSERT INTO public.moon VALUES (4, 'Io', 5, 1821, true, 1610);
-INSERT INTO public.moon VALUES (5, 'Europa', 5, 1560, true, 1610);
-INSERT INTO public.moon VALUES (6, 'Ganymede', 5, 2634, true, 1610);
-INSERT INTO public.moon VALUES (7, 'Callisto', 5, 2410, true, 1610);
-INSERT INTO public.moon VALUES (8, 'Titan', 6, 2574, true, 1655);
-INSERT INTO public.moon VALUES (9, 'Rhea', 6, 763, true, 1672);
-INSERT INTO public.moon VALUES (10, 'Iapetus', 6, 734, true, 1671);
-INSERT INTO public.moon VALUES (11, 'Dione', 6, 561, true, 1684);
-INSERT INTO public.moon VALUES (12, 'Tethys', 6, 531, true, 1684);
-INSERT INTO public.moon VALUES (13, 'Ariel', 7, 578, true, 1851);
-INSERT INTO public.moon VALUES (14, 'Umbriel', 7, 584, true, 1851);
-INSERT INTO public.moon VALUES (15, 'Titania', 7, 788, true, 1787);
-INSERT INTO public.moon VALUES (16, 'Oberon', 7, 761, true, 1787);
-INSERT INTO public.moon VALUES (17, 'Miranda', 7, 235, true, 1948);
-INSERT INTO public.moon VALUES (18, 'Triton', 8, 1353, true, 1846);
-INSERT INTO public.moon VALUES (19, 'Proteus', 8, 210, false, 1989);
-INSERT INTO public.moon VALUES (20, 'Nereid', 8, 170, false, 1949);
+INSERT INTO public.moon VALUES (81, 'Moon', 3, 1737, true, NULL);
+INSERT INTO public.moon VALUES (82, 'Phobos', 4, 11, false, 1877);
+INSERT INTO public.moon VALUES (83, 'Deimos', 4, 6, false, 1877);
+INSERT INTO public.moon VALUES (84, 'Io', 5, 1821, true, 1610);
+INSERT INTO public.moon VALUES (85, 'Europa', 5, 1560, true, 1610);
+INSERT INTO public.moon VALUES (86, 'Ganymede', 5, 2634, true, 1610);
+INSERT INTO public.moon VALUES (87, 'Callisto', 5, 2410, true, 1610);
+INSERT INTO public.moon VALUES (88, 'Titan', 6, 2574, true, 1655);
+INSERT INTO public.moon VALUES (89, 'Rhea', 6, 763, true, 1672);
+INSERT INTO public.moon VALUES (90, 'Iapetus', 6, 734, true, 1671);
+INSERT INTO public.moon VALUES (91, 'Dione', 6, 561, true, 1684);
+INSERT INTO public.moon VALUES (92, 'Tethys', 6, 531, true, 1684);
+INSERT INTO public.moon VALUES (93, 'Ariel', 7, 578, true, 1851);
+INSERT INTO public.moon VALUES (94, 'Umbriel', 7, 584, true, 1851);
+INSERT INTO public.moon VALUES (95, 'Titania', 7, 788, true, 1787);
+INSERT INTO public.moon VALUES (96, 'Oberon', 7, 761, true, 1787);
+INSERT INTO public.moon VALUES (97, 'Miranda', 7, 235, true, 1948);
+INSERT INTO public.moon VALUES (98, 'Triton', 8, 1353, true, 1846);
+INSERT INTO public.moon VALUES (99, 'Proteus', 8, 210, false, 1989);
+INSERT INTO public.moon VALUES (100, 'Nereid', 8, 170, false, 1949);
 
 
 --
@@ -361,7 +364,7 @@ SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
 -- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 20, true);
+SELECT pg_catalog.setval('public.moon_moon_id_seq', 100, true);
 
 
 --
